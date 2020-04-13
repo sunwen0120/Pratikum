@@ -1,4 +1,27 @@
-import pandas as pd
+import re
+from wen_sun.setup import setup
+from wen_sun.test import recipe_detail_list
+
+def parse_html(url):
+    soup = setup(url)
+    # 页面跳转
+    link = soup.find('div', {'class', 'category-column'}).find('h2').find('a')['href']
+    subpage = "https://www.chefkoch.de" + link
+    soup_cat = setup(subpage)
+
+    for i in range(1, 2):
+        page = soup_cat.find('ul', {'class', 'ds-pagination'})
+        for li in page.find_all('li'):
+            link_a = li.find('a', {'class', 'ds-page-link bi-paging-jump'})
+            if link_a != None:
+                link = link_a['href']
+                soup_recipe = setup(link)
+                for article in soup_recipe.find_all('article', {'class', 'rsel-item ds-grid-float ds-col-12 ds-col-m-8'}):
+                    new_url = article.find('a')['href']
+                    # detail_soup = setup(new_url)
+                    get_recipe_info(new_url)
+                    break
+
 
 def get_recipe_info(recipe):
     content = {
