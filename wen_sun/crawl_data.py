@@ -3,6 +3,7 @@ from wen_sun.setup import setup
 
 
 def parse_html(url):
+    recipe_info_list = []
     soup = setup(url)
     # 页面跳转
     link = soup.find('div', {'class', 'category-column'}).find('h2').find('a')['href']
@@ -20,9 +21,13 @@ def parse_html(url):
                 soup_recipe = setup(link)
                 for article in soup_recipe.find_all('article', {'class', 'rsel-item ds-grid-float ds-col-12 ds-col-m-8'}):
                     new_url = article.find('a')['href']
-                    get_recipe_info(new_url)
+                    recipe_info_list.extend(get_recipe_info(new_url))
 
                     break
+
+    return(recipe_info_list)
+
+
 
 
 # def categorien_name(url):
@@ -33,12 +38,14 @@ def parse_html(url):
 # crawel the ingredient of recipe
 def get_recipe_ingredient(recipe):
     soup = setup(recipe)
-    table = soup.find('table', {"class": "ingredients table-header"})
+    tableAll = soup.findAll('table', {"class": "ingredients table-header"})
     ingredient_table = []
-    for tr in table.findAll('tr'):
-        td = tr.findAll('td')
-        ingredient_table.append(
-        td[1].get_text().lstrip().rstrip())
+    for table in tableAll:
+        for tr in table.findAll('tr'):
+            td = tr.findAll('td')
+            if td != []:
+                ingredient_table.append(
+                td[1].get_text().lstrip().rstrip())
     return(ingredient_table)
 
 # 取每项菜谱材料数量

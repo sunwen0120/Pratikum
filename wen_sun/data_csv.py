@@ -2,11 +2,17 @@ import json
 import csv
 
 def writeCSV(data_list):
-    f = csv.writer(open('test.csv', 'w', encoding='utf-8'))
+    file = open('./wen_sun/test.csv', 'w+', encoding='utf-8')
+    f = csv.writer(file)
     f.writerow(
-        ['categorien', 'recipe_name', 'avg_score', 'difficulty', 'rating_count', 'pre_time', 'calorie', 'comment_user',
-         'recipe_url'])
+        ['categorien', 'recipe_name', 'avg_score', 'difficulty', 'rating_count', 'pre_time', 'calorie', 'ingredient',
+         'comment_user','recipe_url'])
     for item in data_list:
+
+        ingredient = ''
+        for i in item["ingredient"]:
+            ingredient = ingredient + i + ','
+
         f.writerow([item['categorien'],
                     item['recipe_name'],
                     item['avg_score'],
@@ -14,7 +20,9 @@ def writeCSV(data_list):
                     item['rating_count'],
                     item['pre_time'],
                     item['calorie'],
+                    ingredient[:-1],
                     item['comment_user'],
                     item['recipe_url']]
                    )
 
+    file.close()

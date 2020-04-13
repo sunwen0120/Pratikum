@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import wen_sun.data_csv as data_csv
 import wen_sun.crawl_data as crawl_data
+
 import urllib
 import random
 import re
@@ -17,5 +18,6 @@ URL = "https://www.chefkoch.de/rezepte/kategorien/"
 
 
 if __name__ == "__main__":
-    crawl_data.parse_html(URL)
+    global_recipe_list = crawl_data.parse_html(URL)
     data_csv.writeCSV(global_recipe_list)
+    print('finish')
