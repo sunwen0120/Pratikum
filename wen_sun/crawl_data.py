@@ -37,9 +37,9 @@ def get_recipe_info(recipe):
     }
 
     soup = setup(recipe)
-    # cat_name = soup.find('span',{'itemprop':'name'}).get_text()
-    # # print(cat_name)
-    # content['categorien'] = cat_name
+    cat_name = soup.find('li',{'itemprop':'itemListElement'}).find()
+    # print(cat_name)
+    content['categorien'] = cat_name
     # crawl the name of recipes
     recipe_name = soup.find('h1').get_text()
     content['recipe_name'] = recipe_name
