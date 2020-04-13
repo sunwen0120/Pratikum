@@ -5,7 +5,7 @@ def writeCSV(data_list):
     file = open('./wen_sun/test.csv', 'w+', encoding='utf-8')
     f = csv.writer(file)
     f.writerow(
-        ['categorien', 'recipe_name', 'avg_score', 'difficulty', 'rating_count', 'pre_time', 'calorie', 'ingredient',
+        ['recipe_id','categorien', 'recipe_name', 'avg_score', 'difficulty', 'rating_count', 'pre_time', 'calorie', 'ingredient',
          'comment_user','recipe_url'])
     for item in data_list:
 
@@ -13,7 +13,8 @@ def writeCSV(data_list):
         for i in item["ingredient"]:
             ingredient = ingredient + i + ','
 
-        f.writerow([item['categorien'],
+        f.writerow([item['recipe_url'].split('/')[4],
+                    item['categorien'],
                     item['recipe_name'],
                     item['avg_score'],
                     item['difficulty'],

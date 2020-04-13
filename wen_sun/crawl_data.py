@@ -23,7 +23,7 @@ def parse_html(url):
                     new_url = article.find('a')['href']
                     recipe_info_list.extend(get_recipe_info(new_url))
 
-                    break
+                    # break
 
     return(recipe_info_list)
 
@@ -74,6 +74,7 @@ def get_comment_user(recipe):
 
 
 def get_recipe_info(recipe):
+    print(recipe)
     recipe_detail_list = []
     content = {
         "categorien": [],
