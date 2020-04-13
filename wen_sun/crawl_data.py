@@ -1,6 +1,6 @@
 import re
 from wen_sun.setup import setup
-from wen_sun.test import recipe_detail_list
+
 
 def parse_html(url):
     soup = setup(url)
@@ -9,6 +9,8 @@ def parse_html(url):
     subpage = "https://www.chefkoch.de" + link
     soup_cat = setup(subpage)
 
+
+    # page turning automatically
     for i in range(1, 2):
         page = soup_cat.find('ul', {'class', 'ds-pagination'})
         for li in page.find_all('li'):
@@ -18,12 +20,54 @@ def parse_html(url):
                 soup_recipe = setup(link)
                 for article in soup_recipe.find_all('article', {'class', 'rsel-item ds-grid-float ds-col-12 ds-col-m-8'}):
                     new_url = article.find('a')['href']
-                    # detail_soup = setup(new_url)
                     get_recipe_info(new_url)
+
                     break
 
 
+# def categorien_name(url):
+#     soup = setup(url)
+#     cat_name = soup.find('h2', {'class', 'category-level-1'}).get_text()
+#     return (cat_name)
+
+# crawel the ingredient of recipe
+def get_recipe_ingredient(recipe):
+    soup = setup(recipe)
+    table = soup.find('table', {"class": "ingredients table-header"})
+    ingredient_table = []
+    for tr in table.findAll('tr'):
+        td = tr.findAll('td')
+        ingredient_table.append(
+        td[1].get_text().lstrip().rstrip())
+    return(ingredient_table)
+
+# 取每项菜谱材料数量
+def get_recipe_ingredient_1(recipe):
+    soup = setup(recipe)
+    table = soup.find('table', {"class": "ingredients table-header"})
+    ingredient_table = []
+    for tr in table.findAll('tr'):
+        td = tr.findAll('td')
+        ingredient_table.append({
+            "matriel" : td[1].get_text().lstrip().rstrip(),
+            "amount" : td[0].get_text().lstrip().rstrip()
+        })
+    return(ingredient_table)
+
+# recipe = 'https://www.chefkoch.de/rezepte/1010591206190843/Lothars-beste-Nuernberger-Elisenlebkuchen.html'
+def get_comment_user(recipe):
+    soup = setup(recipe)
+    comment_link = soup.find('span',{'class': 'ds-from-m rat-show-action'}).find('a')['href']
+    comm_soup = setup(comment_link)
+    comment_table = comm_soup.find('table',{'class':'votes-rating-cell'})
+    for tr in comment_table.find_all('tr'):
+        td = tr.find_all('td')
+        comment_user = td.find('a')['href']
+# print(get_comment_user(recipe))
+
+
 def get_recipe_info(recipe):
+    recipe_detail_list = []
     content = {
         "categorien": [],
         "recipe_name": [],  # *
@@ -32,14 +76,19 @@ def get_recipe_info(recipe):
         "rating_count": [],  # *
         "pre_time": [],  # *
         "calorie": [],
+        "ingredient":[],
         "comment_user": [],
         "recipe_url": []  # *
     }
 
     soup = setup(recipe)
-    cat_name = soup.find('li',{'itemprop':'itemListElement'}).find()
-    # print(cat_name)
-    content['categorien'] = cat_name
+    # crawl the categorien name
+    cat_name_list = []
+    for li in soup.find_all('li',{"itemprop": "itemListElement"}):
+        cat_name = li.find('span',{'itemprop': "name"}).get_text()
+        cat_name_list.append(cat_name)
+    content['categorien'] = cat_name_list[3]
+
     # crawl the name of recipes
     recipe_name = soup.find('h1').get_text()
     content['recipe_name'] = recipe_name
@@ -66,10 +115,28 @@ def get_recipe_info(recipe):
     difficulty = ''.join(difficulty)
     content['difficulty'] = difficulty
 
+    # crawl the calorie of the recipe
+    try:
+        caro = soup.find('span', {"class": "recipe-kcalories"}).get_text()
+        calorie = re.findall('[A-Za-z0-9]', caro)
+        calorie = ''.join(calorie)
+        content['calorie'] = calorie
+    except:
+        content['calorie'] = 'None'
+
+    # crawl the ingredients of recipes
+    ingredient = get_recipe_ingredient(recipe)
+    for i in ingredient:
+        # print(i)
+        content['ingredient'].append(i)
+    # print(ingredient)
+
+
     # get the url of all the recipes
     content['recipe_url'] = recipe
 
     print(content)
 
     recipe_detail_list.append(content)
+
     return (recipe_detail_list)
