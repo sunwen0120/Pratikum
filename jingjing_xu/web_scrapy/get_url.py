@@ -4,6 +4,7 @@ from spider import Spider
 from domain import *
 from general import *
 
+
 PROJECT_NAME = 'chefkoch'
 HOMEPAGE = 'https://www.chefkoch.de/rs/s0g47/Suessspeisen-Backen-Rezepte.html'
 DOMAIN_NAME = get_domain_name(HOMEPAGE)
@@ -49,3 +50,5 @@ def crawl():
 
 create_workers()
 crawl()
+
+
