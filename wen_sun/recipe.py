@@ -59,8 +59,8 @@ def get_recipe_info(recipe):
 
 # # crawl the prepare time of recipe
     t = soup.find('span', {"class": "recipe-preptime"}).get_text()
-    pre_time = re.findall('[A-Za-z0-9]', t)
-    pre_time = ''.join(pre_time)
+    pre_time = re.findall('[A-Za-z0-9]+', t)
+    # pre_time = ''.join(pre_time)
 
 # # difficulty of recipe
     diff = soup.find('span', {"class": "recipe-difficulty"}).get_text()

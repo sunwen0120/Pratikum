@@ -24,10 +24,7 @@ def parse_html(url):
                     recipe_info_list.extend(get_recipe_info(new_url))
 
                     # break
-
     return(recipe_info_list)
-
-
 
 
 # def categorien_name(url):
@@ -113,21 +110,21 @@ def get_recipe_info(recipe):
 
     # crawl the prepare time of recipe
     t = soup.find('span', {"class": "recipe-preptime"}).get_text()
-    pre_time = re.findall('[A-Za-z0-9]', t)
-    pre_time = ''.join(pre_time)
+    pre_time = re.findall('[A-Za-z0-9]+', t)
+    # pre_time = ''.join(pre_time)
     content['pre_time'] = pre_time
 
     # difficulty of recipe
     diff = soup.find('span', {"class": "recipe-difficulty"}).get_text()
-    difficulty = re.findall('[A-Za-z0-9]', diff)
-    difficulty = ''.join(difficulty)
+    difficulty = re.findall('[A-Za-z0-9]+', diff)
+    # difficulty = ''.join(difficulty)
     content['difficulty'] = difficulty
 
     # crawl the calorie of the recipe
     try:
         caro = soup.find('span', {"class": "recipe-kcalories"}).get_text()
-        calorie = re.findall('[A-Za-z0-9]', caro)
-        calorie = ''.join(calorie)
+        calorie = re.findall('[A-Za-z0-9]+', caro)
+        # calorie = ''.join(calorie)
         content['calorie'] = calorie
     except:
         content['calorie'] = 'None'

@@ -1,8 +1,8 @@
-import json
+
 import csv
 
 def writeCSV(data_list):
-    file = open('./wen_sun/test.csv', 'w+', encoding='utf-8')
+    file = open('./wen_sun/chefkoch_data.csv', 'w+', encoding='utf-8')
     f = csv.writer(file)
     f.writerow(
         ['recipe_id','categorien', 'recipe_name', 'avg_score', 'difficulty', 'rating_count', 'pre_time', 'calorie', 'ingredient',
