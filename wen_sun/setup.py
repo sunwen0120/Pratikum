@@ -1,6 +1,8 @@
 
 import requests
 from bs4 import BeautifulSoup
+import time
+import random
 
 
 def setup(url):
@@ -9,3 +11,9 @@ def setup(url):
     if html.status_code == 200:
         soup = BeautifulSoup(html.text, 'html.parser')
     return (soup)
+
+
+def pause():
+    time.sleep(random.uniform(15, 30))
+    return()
+
