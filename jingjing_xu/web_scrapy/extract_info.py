@@ -1,4 +1,5 @@
 import requests
+import time
 from bs4 import BeautifulSoup
 import re
 
@@ -9,6 +10,7 @@ def get_comment_user(url):
     comment_user = []
 
     # request the website of rating list
+    time.sleep(0.5)
     r = requests.get(url)
 
     if r.status_code == 200:
@@ -35,6 +37,7 @@ def get_comment_user(url):
                 profile_url = 'https://www.chefkoch.de' + name[0]['href']
 
                 # get the age, sex of the user
+                time.sleep(0.5)
                 w = requests.get(profile_url)
 
                 if w.status_code == 200:
@@ -100,7 +103,7 @@ def get_recipe_info(categorize, url):
     # categorize is hide in url
     categorize = categorize
     recipe_url = url
-
+    time.sleep(0.5)
     r = requests.get(url)
 
     if r.status_code == 200:
