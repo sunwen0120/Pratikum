@@ -13,10 +13,9 @@ from web_scrapy.extract_info import *
 
 
 urls = []
-
-CAT_NAME = "Zubereitungsarten"
-FILE_NAME = '../Zubereitungsarten.txt'
-FILE_DIR = '../Zubereitungsarten.csv'
+CAT_NAME = "Getränke"
+FILE_NAME = '../Getranke.txt'
+FILE_DIR = '../Getranke.csv'
 
 f = open(FILE_NAME, "r")
 for line in f.readlines():
