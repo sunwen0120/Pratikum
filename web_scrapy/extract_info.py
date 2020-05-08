@@ -21,7 +21,7 @@ def get_comment_user(url):
         rows = table.findAll('tr')
         for row in rows[1:]:
             # use a dictionary to store the information of every user
-            dict = { }
+            dict = {}
 
             # get the name of the user
             name = row.findAll('a')
@@ -89,6 +89,7 @@ def get_comment_user(url):
     return comment_user
 
 
+
 # extract useful information form the website
 def get_recipe_info(categorize, url):
     # define a dictionary to store the information
@@ -104,6 +105,7 @@ def get_recipe_info(categorize, url):
         "preparation_time": [],
         "comment_user": [],
         "recipe_url": [],
+        "date_recipe":[],
     }
 
     # categorize is hide in url
@@ -134,6 +136,14 @@ def get_recipe_info(categorize, url):
         # get the difficulty of recipe
         diff = soup.find('span', {"class": "recipe-difficulty"}).get_text()
         difficulty = re.findall('[A-Za-z]+', diff)
+
+        # get the date of recipe
+        try:
+            date = soup.find('span', {"class": "recipe-date"}).get_text()
+            date_recipe = re.findall('[0-9]{2}.[0-9]{2}.[0-9]{4}', date)
+        except:
+            date_recipe = 'None'
+
 
         # get the calorie of the recipe
         try:
@@ -184,6 +194,7 @@ def get_recipe_info(categorize, url):
         content['recipe_url'] = recipe_url
         content['preparation_time'] = preparation_time[0]
         content['comment_user'] = comment_user
+        content['date_recipe'] = date_recipe
 
     return content
 
