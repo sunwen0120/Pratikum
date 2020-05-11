@@ -14,6 +14,6 @@ def setup(url):
 
 
 def pause():
-    time.sleep(random.uniform(15, 30))
+    time.sleep(0.5)
     return()
 

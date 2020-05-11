@@ -85,7 +85,6 @@ def get_comment_user(url):
                     keys = list(dict.values())
                     if keys.count('None') < 4:
                         comment_user.append(dict)
-
     return comment_user
 
 
@@ -173,14 +172,15 @@ def get_recipe_info(categorize, url):
             tags.append(tag)
 
         # get the comment_user of the recipe
-        try:
-            rating_list = soup.find('span', {'class':"ds-from-m rat-show-action"})
-            rating_list = rating_list.find('a')
-            rating_url = rating_list['href']
-            comment_user = get_comment_user(rating_url)
-
-        except:
-            comment_user = 'None'
+        # try:
+        rating_list = soup.find('span', {'class':"ds-from-m rat-show-action"})
+        rating_list = rating_list.find('a')
+        rating_url = rating_list['href']
+        comment_user = get_comment_user(rating_url)
+        print(rating_url)
+        print(comment_user)
+        # except:
+        #     comment_user = 'None'
 
         # write the data into dictionary
         content['categorize'] = categorize
@@ -195,6 +195,7 @@ def get_recipe_info(categorize, url):
         content['preparation_time'] = preparation_time[0]
         content['comment_user'] = comment_user
         content['date_recipe'] = date_recipe
+        # print(content)
 
     return content
 

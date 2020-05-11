@@ -119,23 +119,24 @@ def get_comment_user(recipe):
                             # print(comment_user)
     return comment_user
 
-url = 'https://www.chefkoch.de/rezepte/2690541421778074/Aloha-Quarkmaeusle.html'
+
 
 def get_recipe_info(recipe):
     # print(recipe)
     recipe_detail_list = []
     content = {
         "categorien": [],
-        "recipe_name": [], # *
+        "recipe_name": [],
         "tags":[],
-        "avg_score": [],  # *
-        "difficulty": [],  # *
-        "rating_count": [],  # *
-        "pre_time": [],  # *
+        "avg_score": [],
+        "difficulty": [],
+        "rating_count": [],
+        "pre_time": [],
         "calorie": [],
         "ingredient":[],
         "comment_user": [],
-        "recipe_url": []  # *
+        "recipe_url": [] ,
+        "recipe_data": []
     }
 
     pause()
@@ -199,6 +200,15 @@ def get_recipe_info(recipe):
         content['ingredient'].append(i)
     # print(ingredient)
 
+    # get the data of all recipes
+    try:
+        date = soup.find('span', {"class": "recipe-date"}).get_text()
+        date_recipe = re.findall('[0-9]{2}.[0-9]{2}.[0-9]{4}', date)
+        content['date_recipe'] = date_recipe
+    except:
+        date_recipe = 'None'
+        content['date_recipe'] = 'None'
+
 
     # get the url of all the recipes
     content['recipe_url'] = recipe
@@ -211,12 +221,8 @@ def get_recipe_info(recipe):
         content['comment_user'].append(i)
 
 
-
-
-    # print(content)
-
     recipe_detail_list.append(content)
 
     return (recipe_detail_list)
 
-get_recipe_info(url)
+
