@@ -21,7 +21,7 @@ def get_comment_user(url):
         rows = table.findAll('tr')
         for row in rows[1:]:
             # use a dictionary to store the information of every user
-            dict = {}
+            dict = { }
 
             # get the name of the user
             name = row.findAll('a')
@@ -85,8 +85,8 @@ def get_comment_user(url):
                     keys = list(dict.values())
                     if keys.count('None') < 4:
                         comment_user.append(dict)
-    return comment_user
 
+    return comment_user
 
 
 # extract useful information form the website
@@ -102,9 +102,9 @@ def get_recipe_info(categorize, url):
         "rating_count": [],
         "calorie": [],
         "preparation_time": [],
+        "date_recipe": [],
         "comment_user": [],
         "recipe_url": [],
-        "date_recipe":[],
     }
 
     # categorize is hide in url
@@ -136,14 +136,6 @@ def get_recipe_info(categorize, url):
         diff = soup.find('span', {"class": "recipe-difficulty"}).get_text()
         difficulty = re.findall('[A-Za-z]+', diff)
 
-        # get the date of recipe
-        try:
-            date = soup.find('span', {"class": "recipe-date"}).get_text()
-            date_recipe = re.findall('[0-9]{2}.[0-9]{2}.[0-9]{4}', date)
-        except:
-            date_recipe = 'None'
-
-
         # get the calorie of the recipe
         try:
             caro = soup.find('span', {"class": "recipe-kcalories"}).get_text()
@@ -151,6 +143,13 @@ def get_recipe_info(categorize, url):
             calorie = ''.join(calorie)
         except:
             calorie = 'None'
+
+        # get the date of recipe
+        try:
+            date = soup.find('span', {"class": "recipe-date"}).get_text()
+            date_recipe = re.findall('[0-9]{2}.[0-9]{2}.[0-9]{4}', date)
+        except:
+            date_recipe = 'None'
 
         # get the ingredient of recipe
         table = soup.find('table', {"class": "ingredients table-header"})
@@ -171,14 +170,14 @@ def get_recipe_info(categorize, url):
             tag = tag.replace(" ", "")
             tags.append(tag)
 
+
         # get the comment_user of the recipe
         # try:
         rating_list = soup.find('span', {'class':"ds-from-m rat-show-action"})
         rating_list = rating_list.find('a')
         rating_url = rating_list['href']
         comment_user = get_comment_user(rating_url)
-        print(rating_url)
-        print(comment_user)
+
         # except:
         #     comment_user = 'None'
 
@@ -191,11 +190,11 @@ def get_recipe_info(categorize, url):
         content['ingredient'] = ingredient
         content['rating_count'] = rating_count
         content['calorie'] = calorie
+        content['date_recipe'] = date_recipe
         content['recipe_url'] = recipe_url
         content['preparation_time'] = preparation_time[0]
         content['comment_user'] = comment_user
-        content['date_recipe'] = date_recipe
-        # print(content)
+        print(content)
 
     return content
 
