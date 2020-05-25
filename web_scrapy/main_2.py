@@ -25,7 +25,7 @@ for line in f.readlines():
 
 
 # extract information from the websites in urls
-index = 1
+index = 40837
 for url in urls:
     print("Extracting " + "index " + str(index) + 'th website:' + str(url))
     content = get_recipe_info(CAT_NAME, url)
