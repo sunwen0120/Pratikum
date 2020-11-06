@@ -14,9 +14,9 @@ from web_scrapy.extract_info import *
 
 urls = []
 
-CAT_NAME = "Regional"
-FILE_NAME = '../Regional.txt'
-FILE_DIR = '../Regional.csv'
+CAT_NAME = "Getranke"
+FILE_NAME = '../Getranke.txt'
+FILE_DIR = '../Getranke.csv'
 
 f = open(FILE_NAME, "r")
 for line in f.readlines():

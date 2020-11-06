@@ -5,6 +5,7 @@ import time
 
 
 # extract user link
+# Because of the change of Chefkoch, we can not extract user information anymore
 def get_comment_user(url):
 
     comment_user = []
@@ -126,7 +127,7 @@ def get_recipe_info(categorize, url):
 
         # count the number of ratings
         rating2 = soup.find('div', {"class": "ds-rating-count"})
-        rating_count = rating2.find('strong').get_text()
+        rating_count = rating2.find('span', {"class": "rds-only"}).get_text()
 
         # get the preparation time of recipe
         t = soup.find('span', {"class": "recipe-preptime"}).get_text()
